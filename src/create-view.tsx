@@ -55,7 +55,7 @@ const createLib = ({ useStore, useEvent }: EffectorHooks) => {
               config.enter?.();
 
               return config.exit;
-            });
+            }, []);
           }
 
           return render(_props);
