@@ -69,7 +69,7 @@ const createLib = ({ useStore, useEvent }: EffectorHooks) => {
           View.defaultProps = config.defaultProps;
         }
 
-        View.memo = memo(View);
+        View.Memo = memo(View);
 
         return View;
       }

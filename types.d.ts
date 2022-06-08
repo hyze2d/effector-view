@@ -15,7 +15,7 @@ declare type ConnectorBuilderResult<P, MP, K extends string> = Omit<ViewConnecto
 declare type View<P, MP> = ((props: Omit<P, keyof MP>) => JSX.Element | null) & {
     defaultProps?: Partial<P>;
     displayName?: string;
-    memo: MemoExoticComponent<(props: Omit<P, keyof MP> & MP) => JSX.Element | null>;
+    Memo: MemoExoticComponent<(props: Omit<P, keyof MP>) => JSX.Element | null>;
 };
 declare type BaseBuilder<P, MP, K extends string> = {
     displayName: (displayName: string) => BuilderResult<P, MP, K | 'displayName'>;
