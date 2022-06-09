@@ -71,6 +71,8 @@ const createLib = ({ useStore, useEvent }: EffectorHooks) => {
 
         View.Memo = memo(View);
 
+        View.Original = component || _render;
+
         return View;
       }
     };

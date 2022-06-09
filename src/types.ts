@@ -33,6 +33,8 @@ type View<P, MP> = ((props: Omit<P, keyof MP>) => JSX.Element | null) & {
   displayName?: string;
 
   Memo: MemoExoticComponent<(props: Omit<P, keyof MP>) => JSX.Element | null>;
+
+  Original: (props: Omit<P, keyof MP> & MP) => JSX.Element | null;
 };
 
 type BaseBuilder<P, MP, K extends string> = {
