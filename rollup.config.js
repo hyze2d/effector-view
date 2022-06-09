@@ -4,7 +4,13 @@ import { terser } from 'rollup-plugin-terser';
 import { nodeResolve } from '@rollup/plugin-node-resolve';
 import commonjs from '@rollup/plugin-commonjs';
 
-const external = ['react', 'react-dom', 'effector', 'effector-react', 'effector-react/ssr'];
+const external = [
+  'react',
+  'react-dom',
+  'effector',
+  'effector-react',
+  'effector-react/ssr'
+];
 
 const plugins = [
   typescript({
@@ -24,7 +30,15 @@ const plugins = [
       '@babel/preset-react'
     ],
 
-    plugins: ['@babel/plugin-transform-runtime']
+    plugins: [
+      '@babel/plugin-transform-runtime',
+      [
+        'effector/babel-plugin',
+        {
+          factories: ['src/index.ts', 'src/index.ssr.ts']
+        }
+      ]
+    ]
   }),
 
   nodeResolve({
