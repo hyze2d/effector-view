@@ -7,7 +7,7 @@ import { createBaseBuilder } from './base';
 import type { EffectorHooks, ViewBuilder, ViewConnectorBuilder } from './types';
 import { splitPropsByType } from './utils';
 
-const createLib = ({ useStore, useEvent }: EffectorHooks) => {
+function createLib({ useEvent, useStore }: EffectorHooks) {
   // @ts-expect-error bumps
   function createView<P, MP = {}>(): ViewBuilder<P, MP, ''>;
   function createView<P, MP = {}>(
@@ -83,6 +83,6 @@ const createLib = ({ useStore, useEvent }: EffectorHooks) => {
   return {
     createView
   };
-};
+}
 
 export { createLib };

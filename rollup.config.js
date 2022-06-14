@@ -9,10 +9,10 @@ const external = [
   'react-dom',
   'effector',
   'effector-react',
-  'effector-react/ssr'
+  'effector-react/scope'
 ];
 
-const plugins = [
+const getplugins = ({ reactSsr = false } = {}) => [
   typescript({
     clean: true
   }),
@@ -35,9 +35,24 @@ const plugins = [
       [
         'effector/babel-plugin',
         {
-          factories: ['src/index.ts', 'src/index.ssr.ts']
+          reactSsr: false,
+          factories: ['src/index.ts']
         }
-      ]
+      ],
+
+      ...(reactSsr
+        ? [
+            [
+              'module-resolver',
+              {
+                root: ['./src'],
+                alias: {
+                  'effector-react': 'effector-react/scope'
+                }
+              }
+            ]
+          ]
+        : [])
     ]
   }),
 
@@ -72,7 +87,7 @@ export default [
   {
     input: './src/index.ts',
 
-    plugins,
+    plugins: getplugins({ reactSsr: false }),
 
     external,
 
@@ -80,18 +95,18 @@ export default [
       file: './index.js',
       ...output
     }
-  },
-
-  {
-    input: './src/index.ssr.ts',
-
-    plugins,
-
-    external,
-
-    output: {
-      file: './ssr.js',
-      ...output
-    }
   }
+
+  // {
+  //   input: './src/index.ts',
+
+  //   plugins: getplugins({ reactSsr: true }),
+
+  //   external,
+
+  //   output: {
+  //     file: './ssr.js',
+  //     ...output
+  //   }
+  // }
 ];

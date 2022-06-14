@@ -1,2 +1,124 @@
-"use strict";Object.defineProperty(exports,"__esModule",{value:!0});var e=require("effector"),t=require("react"),r=require("effector-react/ssr");function n(e){if(e&&e.__esModule)return e;var t=Object.create(null);if(e)for(var r in e)t[r]=e[r];return t.default=e,t}var i=function(){return i=Object.assign||function(e){for(var t,r=1,n=arguments.length;r<n;r++)for(var i in t=arguments[r])Object.prototype.hasOwnProperty.call(t,i)&&(e[i]=t[i]);return e},i.apply(this,arguments)};var s,o,a,u=(s=n(r),o=s.useStore,a=s.useEvent,{createView:function(r){var n={},s=i(i({},function(e){return{displayName:function(t){return e.displayName=t,this},defaultProps:function(t){return e.defaultProps=t,this},props:function(t){return e.props=t,this},map:function(t){return e.map=t,this},enter:function(t){return e.enter=t,this},exit:function(t){return e.exit=t,this},effect:function(t){return e.effect=t,this}}}(n)),{view:function(s){var u,f=r||s,c=function(t){void 0===t&&(t={});for(var r={},n={},i={},s=0,o=Object.entries(t);s<o.length;s++){var a=o[s],u=a[0],f=a[1];e.is.store(f,{sid:"oyk9og"})?n[u]=f:e.is.event(f,{sid:"kjvjw5"})||e.is.effect(f,{sid:"kjvlco"})?r[u]=f:i[u]=f}return{rest:i,events:r,stores:n,hasEvents:Object.keys(r).length>0,hasStores:Object.keys(n).length>0}}(n.props),l=c.hasEvents,v=c.hasStores,p=c.stores,d=c.events,h=c.rest;v&&(u=e.combine({and:[p],or:{name:"$store",sid:"-7m05m0"}}));var m=function(e){var r,s=i(i(i(i({},e),h),l&&a(d)),v&&o(u));return n.map&&(s=i(i(i({},e),s),n.map(s))),null===(r=n.effect)||void 0===r||r.call(n,s),((null==n?void 0:n.enter)||(null==n?void 0:n.exit))&&t.useEffect((function(){var e;return null===(e=n.enter)||void 0===e||e.call(n),n.exit}),[]),f(s)};return n.displayName&&(m.displayName=n.displayName),n.defaultProps&&(m.defaultProps=n.defaultProps),m.Memo=t.memo(m),m.Original=r||s,m}});return s}}).createView;exports.createView=u;
+'use strict';
+Object.defineProperty(exports, '__esModule', { value: !0 });
+var e = require('effector'),
+  t = require('react'),
+  r = function () {
+    return (
+      (r =
+        Object.assign ||
+        function (e) {
+          for (var t, r = 1, n = arguments.length; r < n; r++)
+            for (var s in (t = arguments[r]))
+              Object.prototype.hasOwnProperty.call(t, s) && (e[s] = t[s]);
+          return e;
+        }),
+      r.apply(this, arguments)
+    );
+  };
+exports.createLib = function (n) {
+  var s = n.useEvent,
+    i = n.useStore;
+  return {
+    createView: function (n) {
+      var o = {},
+        u = r(
+          r(
+            {},
+            (function (e) {
+              return {
+                displayName: function (t) {
+                  return (e.displayName = t), this;
+                },
+                defaultProps: function (t) {
+                  return (e.defaultProps = t), this;
+                },
+                props: function (t) {
+                  return (e.props = t), this;
+                },
+                map: function (t) {
+                  return (e.map = t), this;
+                },
+                enter: function (t) {
+                  return (e.enter = t), this;
+                },
+                exit: function (t) {
+                  return (e.exit = t), this;
+                },
+                effect: function (t) {
+                  return (e.effect = t), this;
+                }
+              };
+            })(o)
+          ),
+          {
+            view: function (u) {
+              var a,
+                c = n || u,
+                f = (function (t) {
+                  void 0 === t && (t = {});
+                  for (
+                    var r = {}, n = {}, s = {}, i = 0, o = Object.entries(t);
+                    i < o.length;
+                    i++
+                  ) {
+                    var u = o[i],
+                      a = u[0],
+                      c = u[1];
+                    e.is.store(c, { sid: 'oyk9og' })
+                      ? (n[a] = c)
+                      : e.is.event(c, { sid: 'kjvjw5' }) ||
+                        e.is.effect(c, { sid: 'kjvlco' })
+                      ? (r[a] = c)
+                      : (s[a] = c);
+                  }
+                  return {
+                    rest: s,
+                    events: r,
+                    stores: n,
+                    hasEvents: Object.keys(r).length > 0,
+                    hasStores: Object.keys(n).length > 0
+                  };
+                })(o.props),
+                l = f.hasEvents,
+                p = f.hasStores,
+                v = f.stores,
+                d = f.events,
+                h = f.rest;
+              p &&
+                (a = e.combine({
+                  and: [v],
+                  or: { name: '$store', sid: '-7m05m0' }
+                }));
+              var m = function (e) {
+                var n,
+                  u = r(r(r(r({}, e), h), l && s(d)), p && i(a));
+                return (
+                  o.map && (u = r(r(r({}, e), u), o.map(u))),
+                  null === (n = o.effect) || void 0 === n || n.call(o, u),
+                  ((null == o ? void 0 : o.enter) ||
+                    (null == o ? void 0 : o.exit)) &&
+                    t.useEffect(function () {
+                      var e;
+                      return (
+                        null === (e = o.enter) || void 0 === e || e.call(o),
+                        o.exit
+                      );
+                    }, []),
+                  c(u)
+                );
+              };
+              return (
+                o.displayName && (m.displayName = o.displayName),
+                o.defaultProps && (m.defaultProps = o.defaultProps),
+                (m.Memo = t.memo(m)),
+                (m.Original = n || u),
+                m
+              );
+            }
+          }
+        );
+      return u;
+    }
+  };
+};
 //# sourceMappingURL=index.js.map

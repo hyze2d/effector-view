@@ -1,4 +1,3 @@
-
 import type { BaseBuilder, BaseConfig } from './types';
 
 function createBaseBuilder<P, MP, K extends string>(config: BaseConfig<P, MP>) {

@@ -1,7 +1,2 @@
-import { createLib } from './create-view';
-import * as effectorReact from 'effector-react';
-
-const { createView } = createLib(effectorReact);
-
-export { createView };
+export { createLib } from './create-view';
 export type { MapStoresToValues } from './types';
