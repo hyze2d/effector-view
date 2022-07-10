@@ -7,7 +7,7 @@ module.exports = {
 
     "prettier",
 
-    "plugin:json/recommended",
+    "plugin:json/recommended"
   ],
 
   ignorePatterns: ["*.js"],
@@ -18,7 +18,7 @@ module.exports = {
     "prettier",
     "effector",
     "import",
-    "unused-imports",
+    "unused-imports"
   ],
 
   parser: "@typescript-eslint/parser",
@@ -31,26 +31,34 @@ module.exports = {
     project: "./tsconfig.json",
 
     ecmaFeatures: {
-      jsx: true,
-    },
+      jsx: true
+    }
   },
 
   settings: {
     react: {
-      version: "detect",
-    },
+      version: "detect"
+    }
   },
 
   globals: {
-    NodeJS: true,
+    NodeJS: true
   },
 
   env: {
     browser: true,
-    node: true,
+    node: true
   },
 
-  overrides: [{ files: ["src/**/*.{ts,tsx}"] }],
+  overrides: [
+    { files: ["src/**/*.{ts,tsx}"] },
+    {
+      "files": ["**/*.stories.@(js|jsx|ts|tsx)"],
+      "rules": {
+        "import/exports-last": ["off"],
+        "import/group-exports": ["off"]
+      }
+    }],
 
   rules: {
     // disable
@@ -59,6 +67,7 @@ module.exports = {
     "react-hooks/exhaustive-deps": "off",
     "no-redeclare": "off",
     "no-undef": "off",
+    "boundaries/element-types": "off",
 
     "dot-notation": "warn",
     "valid-typeof": "warn",
@@ -93,116 +102,116 @@ module.exports = {
       {
         blankLine: "any",
         prev: "import",
-        next: "import",
+        next: "import"
       },
 
       {
         blankLine: "always",
         prev: "*",
-        next: "block",
+        next: "block"
       },
 
       {
         blankLine: "always",
         prev: "*",
-        next: "block-like",
+        next: "block-like"
       },
 
       {
         blankLine: "never",
         prev: "export",
-        next: "export",
+        next: "export"
       },
 
       {
         blankLine: "always",
         prev: "*",
-        next: "block-like",
+        next: "block-like"
       },
 
       {
         blankLine: "always",
         prev: "*",
-        next: "function",
+        next: "function"
       },
 
       {
         blankLine: "always",
         prev: "function",
-        next: "*",
+        next: "*"
       },
 
       {
         blankLine: "always",
         prev: "const",
-        next: "let",
+        next: "let"
       },
 
       {
         blankLine: "always",
         prev: "let",
-        next: "const",
+        next: "const"
       },
 
       {
         blankLine: "always",
         prev: "const",
-        next: "let",
+        next: "let"
       },
 
       {
         blankLine: "always",
         prev: "*",
-        next: "return",
+        next: "return"
       },
 
       {
         blankLine: "always",
         prev: "*",
-        next: "try",
+        next: "try"
       },
 
       {
         blankLine: "always",
         prev: "try",
-        next: "*",
+        next: "*"
       },
 
       {
         blankLine: "always",
         prev: "*",
-        next: "switch",
+        next: "switch"
       },
 
       {
         blankLine: "always",
         prev: "switch",
-        next: "*",
+        next: "*"
       },
 
       {
         blankLine: "always",
         prev: "*",
-        next: "while",
+        next: "while"
       },
 
       {
         blankLine: "always",
         prev: "while",
-        next: "*",
+        next: "*"
       },
 
       {
         blankLine: "always",
         prev: "*",
-        next: "for",
+        next: "for"
       },
 
       {
         blankLine: "always",
         prev: "for",
-        next: "*",
-      },
+        next: "*"
+      }
     ],
 
     "import/no-internal-modules": "off",
@@ -222,7 +231,6 @@ module.exports = {
     "@typescript-eslint/no-misused-promises": "error",
     "@typescript-eslint/no-non-null-asserted-nullish-coalescing": "error",
     "@typescript-eslint/no-non-null-asserted-optional-chain": "error",
-    "@typescript-eslint/no-non-null-assertion": "error",
     "@typescript-eslint/no-redundant-type-constituents": "error",
     "@typescript-eslint/no-require-imports": "error",
     "@typescript-eslint/no-this-alias": "error",
@@ -267,42 +275,42 @@ module.exports = {
 
     "@typescript-eslint/prefer-literal-enum-member": [
       "error",
-      { allowBitwiseExpressions: true },
+      { allowBitwiseExpressions: true }
     ],
 
     "@typescript-eslint/array-type": [
       "error",
-      { default: "array", readonly: "array" },
+      { default: "array", readonly: "array" }
     ],
 
     "@typescript-eslint/consistent-type-imports": [
       "error",
       {
         prefer: "type-imports",
-        disallowTypeAnnotations: true,
-      },
+        disallowTypeAnnotations: true
+      }
     ],
 
     "@typescript-eslint/explicit-member-accessibility": [
       "error",
       {
-        accessibility: "explicit",
-      },
+        accessibility: "explicit"
+      }
     ],
 
     "@typescript-eslint/no-empty-interface": [
       "error",
       {
-        allowSingleExtends: true,
-      },
+        allowSingleExtends: true
+      }
     ],
 
     "@typescript-eslint/no-extraneous-class": [
       "error",
       {
         allowConstructorOnly: true,
-        allowWithDecorator: true,
-      },
+        allowWithDecorator: true
+      }
     ],
 
     "@typescript-eslint/member-ordering": [
@@ -323,9 +331,9 @@ module.exports = {
           "public-instance-field",
           "private-instance-method",
           "protected-instance-method",
-          "public-instance-method",
-        ],
-      },
+          "public-instance-method"
+        ]
+      }
     ],
 
     "@typescript-eslint/ban-ts-comment": [
@@ -336,8 +344,8 @@ module.exports = {
         "ts-ignore": "allow-with-description",
         "ts-nocheck": "allow-with-description",
         "ts-check": "allow-with-description",
-        minimumDescriptionLength: 5,
-      },
+        minimumDescriptionLength: 5
+      }
     ],
 
     "@typescript-eslint/naming-convention": [
@@ -349,11 +357,11 @@ module.exports = {
           "strictCamelCase",
           "PascalCase",
           "StrictPascalCase",
-          "UPPER_CASE",
+          "UPPER_CASE"
         ],
         leadingUnderscore: "allow",
-        trailingUnderscore: "allow",
-      },
+        trailingUnderscore: "allow"
+      }
     ],
 
     "react/display-name": "off",
@@ -378,7 +386,6 @@ module.exports = {
     "react/jsx-closing-tag-location": "error",
     "react/jsx-pascal-case": "error",
     "react/jsx-key": "error",
-    "react/jsx-newline": "error",
     "react/jsx-no-constructed-context-values": "error",
     "react/jsx-no-duplicate-props": "error",
     "react/jsx-no-script-url": "error",
@@ -396,8 +403,8 @@ module.exports = {
       "error",
       {
         namedComponents: "arrow-function",
-        unnamedComponents: "arrow-function",
-      },
+        unnamedComponents: "arrow-function"
+      }
     ],
 
     "react/jsx-handler-names": [
@@ -406,8 +413,8 @@ module.exports = {
         eventHandlerPrefix: "on",
         eventHandlerPropPrefix: "on",
         checkLocalVariables: true,
-        checkInlineFunction: true,
-      },
-    ],
-  },
+        checkInlineFunction: true
+      }
+    ]
+  }
 };

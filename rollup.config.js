@@ -1,112 +1,63 @@
-import typescript from 'rollup-plugin-typescript2';
-import babel from 'rollup-plugin-babel';
-import { terser } from 'rollup-plugin-terser';
-import { nodeResolve } from '@rollup/plugin-node-resolve';
-import commonjs from '@rollup/plugin-commonjs';
+import typescript from '@rollup/plugin-typescript'
+import { defineConfig } from 'rollup'
+import bundleSize from 'rollup-plugin-bundle-size'
+import dts from 'rollup-plugin-dts'
+import esbuild from 'rollup-plugin-esbuild'
+import { terser } from 'rollup-plugin-terser'
+import pkg from './package.json'
 
-const external = [
-  'react',
-  'react-dom',
-  'effector',
-  'effector-react',
-  'effector-react/scope'
-];
+const TYPECHECK = true;
 
-const getplugins = ({ reactSsr = false } = {}) => [
-  typescript({
-    clean: true
-  }),
+const MINIFY = true;
 
-  babel({
-    exclude: 'node_modules/**',
+const src = (file) => `src/${file}`;
 
-    extensions: ['.js', '.jsx', '.ts', '.tsx'],
+const bundle = (input, { plugins = [], ...config }) =>
+  defineConfig({
+    ...config,
+    input,
+    plugins: plugins.filter(Boolean).concat(bundleSize()),
 
-    runtimeHelpers: true,
+    // do not bundle packages
+    external: (id) => !/^[./]/.test(id),
+  });
 
-    presets: [
-      '@babel/preset-env',
-      '@babel/preset-typescript',
-      '@babel/preset-react'
-    ],
-
+const config = defineConfig([
+  /* Compiled JS (CommonJS, ESM) */
+  bundle(src('index.ts'), {
     plugins: [
-      '@babel/plugin-transform-runtime',
-      [
-        'effector/babel-plugin',
-        {
-          reactSsr: false,
-          factories: ['src/index.ts']
-        }
-      ],
-
-      ...(reactSsr
-        ? [
-            [
-              'module-resolver',
-              {
-                root: ['./src'],
-                alias: {
-                  'effector-react': 'effector-react/scope'
-                }
-              }
-            ]
-          ]
-        : [])
-    ]
+      TYPECHECK && typescript({ outputToFilesystem: false }),
+      esbuild(),
+      MINIFY && terser(),
+    ],
+    output: [
+      {
+        file: pkg.main,
+        format: 'cjs',
+      },
+      {
+        file: pkg.module,
+        format: 'es',
+      },
+    ],
   }),
 
-  nodeResolve({
-    jsnext: true,
+  /* TS declarations */
+  bundle(src('index.ts'), {
+    plugins: [
+      dts({
+        compilerOptions: {
+          incremental: false,
+        },
+      }),
+    ],
+    output: [
+      {
+        file: pkg.types,
+        format: 'es',
+      },
+    ],
+  })
+]);
 
-    skip: ['effector'],
-
-    extensions: ['.js', '.mjs']
-  }),
-
-  commonjs({
-    extensions: ['.js', '.mjs']
-  }),
-
-  terser()
-];
-
-const output = {
-  format: 'cjs',
-
-  freeze: false,
-
-  exports: 'named',
-
-  sourcemap: true,
-
-  externalLiveBindings: false
-};
-
-export default [
-  {
-    input: './src/index.ts',
-
-    plugins: getplugins({ reactSsr: false }),
-
-    external,
-
-    output: {
-      file: './index.js',
-      ...output
-    }
-  }
-
-  // {
-  //   input: './src/index.ts',
-
-  //   plugins: getplugins({ reactSsr: true }),
-
-  //   external,
-
-  //   output: {
-  //     file: './ssr.js',
-  //     ...output
-  //   }
-  // }
-];
+export default config
