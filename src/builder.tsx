@@ -1,8 +1,6 @@
 import type { Event } from 'effector';
-import { useEvent } from 'effector-react';
 import type { ComponentType } from 'react';
 import { memo, useEffect } from 'react';
-import { pickFieldsBy } from './lib';
 import type { BuilderConfig, EffectorDependencies } from './types';
 
 const empty = {};
@@ -62,24 +60,6 @@ const createBuilder = (
     view: (render: ComponentType<any>) => {
       const Base = view ?? render;
 
-      const stores = config.units
-        ? pickFieldsBy(config.units, value => deps.is.store(value))
-        : {};
-
-      const $store = Object.keys(stores).length ? deps.combine(stores) : null;
-
-      const events = config.units
-        ? pickFieldsBy(
-            config.units,
-
-            value => deps.is.event(value) || deps.is.effect(value)
-          )
-        : {};
-
-      const hasStores = Object.keys(stores).length > 0;
-
-      const hasEvents = Object.keys(events).length > 0;
-
       const useLifecycle = (payload: Record<string, any>) => {
         if (!config.open && !config.close) {
           return;
@@ -87,12 +67,12 @@ const createBuilder = (
 
         const onMount =
           deps.is.event(config.open) || deps.is.effect(config.open)
-            ? useEvent(config.open as Event<void>)
+            ? deps.useUnit(config.open as Event<void>)
             : config.open;
 
         const onCleanup =
           deps.is.event(config.close) || deps.is.effect(config.close)
-            ? useEvent(config.close as Event<void>)
+            ? deps.useUnit(config.close as Event<void>)
             : config.close;
 
         useEffect(() => {
@@ -114,9 +94,9 @@ const createBuilder = (
 
           ...props,
 
-          ...(hasStores ? deps.useStore($store!) : empty),
-
-          ...(hasEvents ? deps.useEvent(events) : empty)
+          ...(config.units
+            ? (deps.useUnit(config.units as any) as Record<string, any>)
+            : empty)
         };
 
         order.forEach(key => {
