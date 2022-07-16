@@ -1,11 +1,35 @@
+import type { ComponentType } from 'react';
 import { createBuilder } from './builder';
-import type { EffectorDependencies } from './types';
-import type { Connect, CreateView } from './types/create-view';
+import type { Decorator, EffectorDependencies, Factory } from './types';
 
 function createLib(deps: EffectorDependencies) {
-  const connect: Connect = () => createBuilder(deps) as any;
+  const connect = <Props>(view: ComponentType<Props>) =>
+    createBuilder(deps, view) as any as Decorator<
+      Props,
+      ComponentType<Props>,
+      {},
+      {},
+      null,
+      null,
+      null,
+      null,
+      {},
+      null
+    >;
 
-  const createView: CreateView = (() => createBuilder(deps)) as any;
+  const createView = <Props, DepKeys extends keyof Props>() =>
+    createBuilder(deps) as any as Factory<
+      Props,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      DepKeys
+    >;
 
   return {
     connect,
