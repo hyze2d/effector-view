@@ -1,7 +1,12 @@
 import type { Event } from 'effector';
 import type { ComponentType } from 'react';
 import { memo, useEffect } from 'react';
-import type { AnyRecord, BuilderConfig, EffectorDependencies } from './types';
+import type {
+  AnyRecord,
+  BuilderConfig,
+  EffectorDependencies,
+  Fn
+} from './types';
 
 const createBuilder = (
   deps: EffectorDependencies,
@@ -47,8 +52,8 @@ const createBuilder = (
 
     // select: createCollector('select'),
 
-    memo: createCollector('memo', () => {
-      config.memo = true;
+    memo: createCollector('memo', value => {
+      config.memo = typeof value == 'function' ? (value as Fn) : true;
     }),
 
     defaultProps: createCollector('defaultProps'),
@@ -149,7 +154,11 @@ const createBuilder = (
       }
 
       if (config.memo) {
-        View.Memo = memo(View);
+        View.Memo = memo(
+          View,
+
+          typeof config.memo == 'function' ? config.memo : undefined
+        );
       }
 
       if (config.displayName) {

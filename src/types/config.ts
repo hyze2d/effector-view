@@ -1,4 +1,5 @@
 import type { Unit } from 'effector';
+import type { Fn } from './common';
 
 type BuilderConfig = {
   units?: Record<string, Unit<any>>;
@@ -13,7 +14,7 @@ type BuilderConfig = {
 
   close?: (...args: any[]) => void | Promise<any>;
 
-  memo?: boolean;
+  memo?: boolean | Fn;
 
   defaultProps?: Record<string, any>;
 

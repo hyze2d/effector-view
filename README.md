@@ -109,10 +109,10 @@ const Counter = createView<CounterProps>()
     })
 
     // There are many cases where you need to do something on component mount even tho it's better to move that logic from mount to somewhere else ( for example history change if you're getting some data on page mount )
-    .enter(anyCallableFunction)
+    .open(anyCallableFunction)
     
-    // basically unfolds useEffect with cleanup function with enter/exit called in body of passed callback or in body of cleanup function
-    .exit(anyCallableFunction)
+    // basically unfolds useEffect with cleanup function with open/close called in body of passed callback or in body of cleanup function
+    .close(anyCallableFunction)
     
     // Sets display name of resulting component
     .displayName('Counter')
@@ -124,6 +124,7 @@ const Counter = createView<CounterProps>()
     })
 
     // if called, resulting component gonna have Memo version pre-made so you can use it as <Counter.Memo />
+    // you can also pass comaprison function
     .memo()
 
     // render function props are types according to what you mapped before
@@ -160,8 +161,8 @@ Counter.units
 Counter.map 
 Counter.effect
 Counter.static
-Counter.enter
-Counter.exit
+Counter.open
+Counter.close
 Counter.select
 Counter.displayName
 
@@ -197,9 +198,9 @@ const UserCounter = createView(Counter)
 
 // those methods are also work for the decoration usage
 
-.enter()
+.open()
 
-.exit()
+.close()
 
 .memo()
 
