@@ -12,7 +12,7 @@ type Factory<
   Close extends Fn | null,
   DefaultProps extends Partial<Props> | null,
   ShouldUpdate extends Fn | null,
-  DepKeys extends keyof Props,
+  DepKeys extends string,
   UsedKeys extends string = '',
   FullProps = (Props extends AnyRecord ? Props : {}) &
     (Static extends AnyRecord ? Static : {}) &

@@ -38,7 +38,7 @@ type FactoryView<
   Close,
   DefaultProps,
   ShouldUpdate,
-  DepKeys extends keyof Props
+  DepKeys extends string
 > = BaseView<
   Units,
   Static,

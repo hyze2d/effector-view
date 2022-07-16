@@ -17,7 +17,7 @@ function createLib(deps: EffectorDependencies) {
       null
     >;
 
-  const createView = <Props, DepKeys extends keyof Props>() =>
+  const createView = <Props, DepKeys extends string = ''>() =>
     createBuilder(deps) as any as Factory<
       Props,
       null,
