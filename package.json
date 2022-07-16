@@ -2,7 +2,7 @@
   "name": "effector-view",
   "version": "2.0.0",
   "description": "",
-  "main": "index.js",
+  "main": "./dist/index.js",
   "scripts": {
     "build": "rollup -c",
     "test": "jest",
