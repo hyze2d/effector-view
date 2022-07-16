@@ -1,12 +1,14 @@
 import { createBuilder } from './builder';
 import type { EffectorDependencies } from './types';
-import type { CreateView } from './types/create-view';
+import type { Connect, CreateView } from './types/create-view';
 
 function createLib(deps: EffectorDependencies) {
-  const createView: CreateView = ((view?: any) =>
-    createBuilder(deps, view)) as any;
+  const connect: Connect = () => createBuilder(deps) as any;
+
+  const createView: CreateView = (() => createBuilder(deps)) as any;
 
   return {
+    connect,
     createView
   };
 }
