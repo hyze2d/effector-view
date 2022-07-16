@@ -1,63 +1,89 @@
-import typescript from '@rollup/plugin-typescript'
-import { defineConfig } from 'rollup'
+import typescript from 'rollup-plugin-typescript2'
+import babel from 'rollup-plugin-babel'
+import {terser} from 'rollup-plugin-terser'
+import {nodeResolve} from '@rollup/plugin-node-resolve'
+import jsonPlugin from '@rollup/plugin-json'
+import commonjs from '@rollup/plugin-commonjs'
 import bundleSize from 'rollup-plugin-bundle-size'
-import dts from 'rollup-plugin-dts'
-import esbuild from 'rollup-plugin-esbuild'
-import { terser } from 'rollup-plugin-terser'
-import pkg from './package.json'
 
-const TYPECHECK = true;
+const external = [
+  'effector',
+  'effector-react',
+  'react',
+  'react-dom'
+];
 
-const MINIFY = true;
-
-const src = (file) => `src/${file}`;
-
-const bundle = (input, { plugins = [], ...config }) =>
-  defineConfig({
-    ...config,
-    input,
-    plugins: plugins.filter(Boolean).concat(bundleSize()),
-
-    // do not bundle packages
-    external: (id) => !/^[./]/.test(id),
-  });
-
-const config = defineConfig([
-  /* Compiled JS (CommonJS, ESM) */
-  bundle(src('index.ts'), {
-    plugins: [
-      TYPECHECK && typescript({ outputToFilesystem: false }),
-      esbuild(),
-      MINIFY && terser(),
-    ],
-    output: [
-      {
-        file: pkg.main,
-        format: 'cjs',
-      },
-      {
-        file: pkg.module,
-        format: 'es',
-      },
-    ],
+const plugins =  [
+  typescript({
+    clean: true,
   }),
 
-  /* TS declarations */
-  bundle(src('index.ts'), {
-    plugins: [
-      dts({
-        compilerOptions: {
-          incremental: false,
-        },
-      }),
-    ],
-    output: [
-      {
-        file: pkg.types,
-        format: 'es',
-      },
-    ],
-  })
-]);
+  babel({
+    exclude: 'node_modules/**',
 
-export default config
+    extensions: ['.js', '.jsx', '.ts', '.tsx'],
+
+    runtimeHelpers: true,
+
+    presets: [
+      '@babel/preset-react',
+      '@babel/preset-env',
+      '@babel/preset-typescript',
+    ],
+
+    plugins: [
+      '@babel/plugin-transform-runtime',
+      [
+        'effector/babel-plugin',
+        {
+          factories: ['src/index.ts', 'src/builder.tsx']
+        }
+      ],
+    ]
+  }),
+
+  nodeResolve({
+    jsnext: true,
+
+    skip: ['effector', 'effector-react', 'react' , 'react-dom'],
+
+    extensions: ['.js', '.mjs']
+  }),
+
+  commonjs({
+    extensions: ['.js', '.mjs']
+  }),
+
+  terser(),
+
+  jsonPlugin(),
+
+  bundleSize()
+];
+
+const output = {
+
+  file: './dist/index.js',
+
+  format: 'cjs',
+
+  freeze: false,
+
+  exports: 'named',
+
+  sourcemap: true,
+
+  externalLiveBindings: false
+};
+
+export default [
+  {
+    input: './src/index.ts',
+
+    plugins,
+
+    external,
+
+    output
+  }
+];
