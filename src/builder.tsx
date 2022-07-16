@@ -93,6 +93,7 @@ const createBuilder = (
         let _props = props;
 
         order.forEach(key => {
+          // eslint-disable-next-line
           switch (key) {
             case 'map': {
               _props = {
