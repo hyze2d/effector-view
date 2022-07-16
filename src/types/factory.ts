@@ -3,9 +3,9 @@ import type { AnyRecord, ComponentFn, Fn, MapUnits } from './common';
 import type { FactoryView } from './view';
 
 type Factory<
-  Props extends AnyRecord | null,
-  Units extends AnyRecord | null,
-  Static extends AnyRecord | null,
+  Props extends AnyRecord,
+  Units extends AnyRecord,
+  Static extends AnyRecord,
   Map extends Fn | null,
   ViewEffect extends Fn | null,
   Open extends Fn | null,
@@ -14,9 +14,9 @@ type Factory<
   ShouldUpdate extends Fn | null,
   DepKeys extends string,
   UsedKeys extends string = '',
-  FullProps = (Props extends AnyRecord ? Props : {}) &
-    (Static extends AnyRecord ? Static : {}) &
-    (Units extends AnyRecord ? MapUnits<Units> : {}) &
+  FullProps = Props &
+    Static &
+    MapUnits<Units> &
     (Map extends Fn ? ReturnType<Map> : {}),
   ImpossibleNewProps = Partial<Record<keyof FullProps, never>>
 > = Omit<
