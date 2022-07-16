@@ -7,6 +7,7 @@ import type {
   EffectorDependencies,
   Fn
 } from './types';
+import React from 'react';
 
 const createBuilder = (
   deps: EffectorDependencies,
