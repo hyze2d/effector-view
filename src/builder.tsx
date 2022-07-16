@@ -1,9 +1,7 @@
 import type { Event } from 'effector';
 import type { ComponentType } from 'react';
 import { memo, useEffect } from 'react';
-import type { BuilderConfig, EffectorDependencies } from './types';
-
-const empty = {};
+import type { AnyRecord, BuilderConfig, EffectorDependencies } from './types';
 
 const createBuilder = (
   deps: EffectorDependencies,
@@ -12,7 +10,7 @@ const createBuilder = (
 ) => {
   const config: BuilderConfig = {};
 
-  const order: string[] = [];
+  const order: (keyof BuilderConfig)[] = [];
 
   const createCollector =
     (
@@ -27,7 +25,7 @@ const createBuilder = (
 
       delete builder[key];
 
-      if (key == 'map' || key == 'select') {
+      if (key == 'map' || key == 'static' || key == 'units') {
         order.push(key);
       }
 
@@ -47,7 +45,7 @@ const createBuilder = (
 
     close: createCollector('close'),
 
-    select: createCollector('select'),
+    // select: createCollector('select'),
 
     memo: createCollector('memo', () => {
       config.memo = true;
@@ -87,17 +85,7 @@ const createBuilder = (
       };
 
       const View = (props: Record<string, any>) => {
-        let _props = {
-          ...config.defaultProps,
-
-          ...config.static,
-
-          ...props,
-
-          ...(config.units
-            ? (deps.useUnit(config.units as any) as Record<string, any>)
-            : empty)
-        };
+        let _props = props;
 
         order.forEach(key => {
           switch (key) {
@@ -111,25 +99,23 @@ const createBuilder = (
               break;
             }
 
-            case 'select': {
+            case 'static': {
               _props = {
                 ..._props,
 
-                ...Object.entries(config.select!).reduce(
-                  (result, [key, item]) => ({
-                    ...result,
-
-                    [key]: deps.useStoreMap({
-                      store: item.store,
-
-                      keys: item.keys(_props),
-
-                      fn: item.fn
-                    })
-                  }),
-                  {}
-                )
+                ...config.static
               };
+
+              break;
+            }
+
+            case 'units': {
+              _props = {
+                ..._props,
+
+                ...deps.useUnit(config.units as AnyRecord)
+              };
+
               break;
             }
           }
@@ -176,10 +162,6 @@ const createBuilder = (
 
       if (config.close) {
         View.close = config.close;
-      }
-
-      if (config.select) {
-        View.select = config.select;
       }
 
       return View;
