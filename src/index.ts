@@ -26,7 +26,7 @@ function createLib(deps: EffectorDependencies) {
       null,
       null,
       null,
-      null,
+      {},
       null,
       DepKeys
     >;

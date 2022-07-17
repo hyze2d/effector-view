@@ -135,6 +135,8 @@ const createBuilder = (
         return <Base {..._props} />;
       };
 
+      View.defaultProps = config.defaultProps ?? {};
+
       if (config.units) {
         View.units = config.units;
       }
@@ -149,10 +151,6 @@ const createBuilder = (
 
       if (config.static) {
         View.static = config.static;
-      }
-
-      if (config.defaultProps) {
-        View.defaultProps = config.defaultProps;
       }
 
       if (config.memo) {

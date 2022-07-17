@@ -10,7 +10,7 @@ type Factory<
   ViewEffect extends Fn | null,
   Open extends Fn | null,
   Close extends Fn | null,
-  DefaultProps extends Partial<Props> | null,
+  DefaultProps extends Partial<Props> | {},
   ShouldUpdate extends Fn | null,
   DepKeys extends string,
   UsedKeys extends string = '',
