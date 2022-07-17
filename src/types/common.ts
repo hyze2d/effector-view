@@ -1,5 +1,5 @@
-import type { Store, StoreValue, Effect, is, Event } from 'effector';
-import type { useUnit, useStoreMap } from 'effector-react';
+import type { Store, StoreValue, Effect, is, Event, combine } from 'effector';
+import type { useUnit, useStoreMap, useStore, useEvent } from 'effector-react';
 import type { ReactElement } from 'react';
 
 type MapUnits<
@@ -19,7 +19,13 @@ type MapUnits<
 };
 
 type EffectorDependencies = {
-  useUnit: typeof useUnit;
+  useUnit?: typeof useUnit;
+
+  useStore?: typeof useStore;
+
+  useEvent?: typeof useEvent;
+
+  combine?: typeof combine;
 
   useStoreMap: typeof useStoreMap;
 

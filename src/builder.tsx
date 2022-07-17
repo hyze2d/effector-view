@@ -1,4 +1,4 @@
-import type { Event } from 'effector';
+import type { Event, Store } from 'effector';
 import type { ComponentType } from 'react';
 import { memo, useEffect } from 'react';
 import type {
@@ -8,6 +8,7 @@ import type {
   Fn
 } from './types';
 import React from 'react';
+import { pickFieldsBy } from './lib';
 
 const createBuilder = (
   deps: EffectorDependencies,
@@ -71,12 +72,12 @@ const createBuilder = (
 
         const onMount =
           deps.is.event(config.open) || deps.is.effect(config.open)
-            ? deps.useUnit(config.open as Event<void>)
+            ? (deps.useUnit! ?? deps.useEvent!)(config.open as Event<void>)
             : config.open;
 
         const onCleanup =
           deps.is.event(config.close) || deps.is.effect(config.close)
-            ? deps.useUnit(config.close as Event<void>)
+            ? (deps.useUnit! ?? deps.useEvent)(config.close as Event<void>)
             : config.close;
 
         useEffect(() => {
@@ -89,6 +90,27 @@ const createBuilder = (
           }
         }, []);
       };
+
+      const stores = pickFieldsBy(config.units as AnyRecord, value =>
+        deps.is.store(value)
+      );
+
+      const events = pickFieldsBy(
+        config.units as AnyRecord,
+        value => deps.is.event(value) || deps.is.effect(value)
+      );
+
+      const $store =
+        deps.useUnit || Object.keys(stores).length == 0
+          ? null
+          : deps.combine!(stores);
+
+      const getUnits = deps.useUnit
+        ? () => deps.useUnit!(config.units as AnyRecord)
+        : () => ({
+            ...deps.useStore!($store as Store<any>),
+            ...deps.useEvent!(events as Record<string, Event<any>>)
+          });
 
       const View = (props: Record<string, any>) => {
         let _props = props;
@@ -120,7 +142,7 @@ const createBuilder = (
               _props = {
                 ..._props,
 
-                ...deps.useUnit(config.units as AnyRecord)
+                ...getUnits()
               };
 
               break;
