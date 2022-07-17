@@ -91,25 +91,35 @@ const createBuilder = (
         }, []);
       };
 
-      const stores = pickFieldsBy(config.units as AnyRecord, value =>
-        deps.is.store(value)
-      );
+      const stores = config.units
+        ? pickFieldsBy(config.units as AnyRecord, value => deps.is.store(value))
+        : {};
 
-      const events = pickFieldsBy(
-        config.units as AnyRecord,
-        value => deps.is.event(value) || deps.is.effect(value)
-      );
+      const events = config.units
+        ? pickFieldsBy(
+            config.units as AnyRecord,
+            value => deps.is.event(value) || deps.is.effect(value)
+          )
+        : {};
 
       const $store =
-        deps.useUnit || Object.keys(stores).length == 0
+        deps.useUnit ?? Object.keys(stores).length == 0
           ? null
           : deps.combine!(stores);
 
+      const hasEvents = Object.keys(events).length != 0;
+
+      // eslint-disable-next-line
       const getUnits = deps.useUnit
-        ? () => deps.useUnit!(config.units as AnyRecord)
+        ? config.units
+          ? () => deps.useUnit!(config.units as AnyRecord)
+          : () => ({})
         : () => ({
-            ...deps.useStore!($store as Store<any>),
-            ...deps.useEvent!(events as Record<string, Event<any>>)
+            ...($store ? deps.useStore!($store as Store<any>) : {}),
+
+            ...(hasEvents
+              ? deps.useEvent!(events as Record<string, Event<any>>)
+              : {})
           });
 
       const View = (props: Record<string, any>) => {
