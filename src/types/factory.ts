@@ -18,10 +18,10 @@ type Factory<
     Static &
     MapUnits<Units> &
     (Map extends Fn ? ReturnType<Map> : {}),
-  ImpossibleNewProps = Partial<Record<keyof FullProps, never>>
+  BaseProps = Partial<Props>
 > = Omit<
   {
-    units: <T extends Record<string, Unit<any>> & ImpossibleNewProps>(
+    units: <T extends Record<string, Unit<any>> & BaseProps>(
       units: T
     ) => Factory<
       Props,
@@ -37,7 +37,7 @@ type Factory<
       UsedKeys | 'units'
     >;
 
-    static: <T extends AnyRecord & ImpossibleNewProps>(
+    static: <T extends AnyRecord & BaseProps>(
       props: T
     ) => Factory<
       Props,
@@ -53,7 +53,7 @@ type Factory<
       UsedKeys | 'static'
     >;
 
-    map: <T extends AnyRecord & ImpossibleNewProps>(
+    map: <T extends AnyRecord & BaseProps>(
       map: (props: FullProps) => T
     ) => Factory<
       Props,
