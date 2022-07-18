@@ -14,7 +14,7 @@ type Factory<
   ShouldUpdate extends Fn | null,
   DepKeys extends string,
   UsedKeys extends string = '',
-  FullProps = Props &
+  FullProps = (Omit<Props, keyof DefaultProps> & DefaultProps) &
     Static &
     MapUnits<Units> &
     (Map extends Fn ? ReturnType<Map> : {}),
@@ -54,7 +54,7 @@ type Factory<
     >;
 
     map: <T extends AnyRecord & ImpossibleNewProps>(
-      map: (props: Props & Static & MapUnits<Units>) => T
+      map: (props: FullProps) => T
     ) => Factory<
       Props,
       Units,

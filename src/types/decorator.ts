@@ -15,7 +15,8 @@ type Decorator<
   DefaultProps,
   ShouldUpdate,
   ProvidedKeys extends string = '',
-  UsedKeys extends string = ''
+  UsedKeys extends string = '',
+  FullProps = Omit<Props, keyof DefaultProps> & DefaultProps
 > = Omit<
   {
     units: <
@@ -61,7 +62,7 @@ type Decorator<
     >;
 
     map: <T extends Omit<Partial<Props>, ProvidedKeys>>(
-      map: (props: Props) => T
+      map: (props: FullProps) => T
     ) => Decorator<
       Props,
       Source,
@@ -76,7 +77,7 @@ type Decorator<
       UsedKeys | 'map'
     >;
 
-    effect: <T extends (props: Props) => void>(
+    effect: <T extends (props: FullProps) => void>(
       effect: T
     ) => Decorator<
       Props,
@@ -93,7 +94,7 @@ type Decorator<
       UsedKeys | 'effect'
     >;
 
-    open: <T extends ((props: Props) => any) | (() => any)>(
+    open: <T extends ((props: FullProps) => any) | (() => any)>(
       open: T
     ) => Decorator<
       Props,
@@ -110,7 +111,7 @@ type Decorator<
       UsedKeys | 'open'
     >;
 
-    close: <T extends ((props: Props) => any) | (() => any)>(
+    close: <T extends ((props: FullProps) => any) | (() => any)>(
       close: T
     ) => Decorator<
       Props,
@@ -163,8 +164,8 @@ type Decorator<
 
     memo: (
       shouldUpdate?: (
-        a: Omit<Props, ProvidedKeys>,
-        b: Omit<Props, ProvidedKeys>
+        a: Omit<FullProps, ProvidedKeys>,
+        b: Omit<FullProps, ProvidedKeys>
       ) => boolean
     ) => Decorator<
       Props,
