@@ -1,4 +1,4 @@
-# effector-view
+# effector-view (docs WIP)
 
 Library to provide a factory for your components with effector mapping and separation between component render and data mapping with automatically mapped types so you dont need to duplicate props definition.
 
