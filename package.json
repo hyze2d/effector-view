@@ -1,6 +1,6 @@
 {
   "name": "effector-view",
-  "version": "2.0.14",
+  "version": "2.0.15",
   "description": "",
   "main": "./dist/index.js",
   "scripts": {
@@ -51,7 +51,7 @@
     "eslint": "^8.17.0",
     "eslint-config-prettier": "^8.5.0",
     "eslint-plugin-boundaries": "^2.10.1",
-    "eslint-plugin-effector": "^0.6.0",
+    "eslint-plugin-effector": "^0.10.3",
     "eslint-plugin-import": "^2.26.0",
     "eslint-plugin-json": "^3.1.0",
     "eslint-plugin-prettier": "^4.0.0",

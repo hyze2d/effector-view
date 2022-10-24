@@ -1,6 +1,11 @@
 import type { ComponentType } from 'react';
 import { createBuilder } from './builder';
-import type { Decorator, EffectorDependencies, Factory } from './types';
+import type {
+  AnyRecord,
+  Decorator,
+  EffectorDependencies,
+  Factory
+} from './types';
 
 function createLib(deps: EffectorDependencies) {
   const connect = <Props>(view: ComponentType<Props>) =>
@@ -17,7 +22,7 @@ function createLib(deps: EffectorDependencies) {
       null
     >;
 
-  const createView = <Props, DepKeys extends string = ''>() =>
+  const createView = <Props extends AnyRecord, DepKeys extends string = ''>() =>
     createBuilder(deps) as any as Factory<
       Props,
       {},

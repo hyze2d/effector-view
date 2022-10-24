@@ -14,12 +14,11 @@ type Factory<
   ShouldUpdate extends Fn | null,
   DepKeys extends string,
   UsedKeys extends string = '',
-  FullProps = (Omit<Props, keyof DefaultProps> & {
-    [P in keyof DefaultProps]: Props[P];
-  }) &
-    Static &
-    MapUnits<Units> &
-    (Map extends Fn ? ReturnType<Map> : {}),
+  FullProps = Omit<
+    Props & Static & MapUnits<Units> & (Map extends Fn ? ReturnType<Map> : {}),
+    keyof DefaultProps
+  > &
+    DefaultProps,
   BaseProps = Partial<Props>
 > = Omit<
   {
