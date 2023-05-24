@@ -1,6 +1,6 @@
 {
   "name": "effector-view",
-  "version": "2.0.15",
+  "version": "2.0.16",
   "description": "",
   "main": "./dist/index.js",
   "scripts": {
@@ -10,13 +10,13 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/ein1x3x/effector-view.git"
+    "url": "git+https://github.com/hyze2d/effector-view.git"
   },
   "author": "",
   "bugs": {
-    "url": "https://github.com/ein1x3x/effector-view/issues"
+    "url": "https://github.com/hyze2d/effector-view/issues"
   },
-  "homepage": "https://github.com/ein1x3x/effector-view#readme",
+  "homepage": "https://github.com/hyze2d/effector-view#readme",
   "files": [
     "dist/*"
   ],
