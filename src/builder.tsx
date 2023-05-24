@@ -122,8 +122,13 @@ const createBuilder = (
               : {})
           });
 
+      const defaults = config.defaultProps ?? {};
+
       const View = (props: Record<string, any>) => {
-        let _props = props;
+        let _props = {
+          ...defaults,
+          ...props
+        };
 
         order.forEach(key => {
           // eslint-disable-next-line
@@ -167,7 +172,7 @@ const createBuilder = (
         return <Base {..._props} />;
       };
 
-      View.defaultProps = config.defaultProps ?? {};
+      // View.defaultProps = config.defaultProps ?? {};
 
       if (config.units) {
         View.units = config.units;
